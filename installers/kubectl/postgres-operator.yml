@@ -93,6 +93,102 @@ data:
     storage1_type: "dynamic"
     storage1_class: "rwx-nfs-storage"
 ---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: pgo-local-ns
+  namespace: tower-awx
+rules:
+  - apiGroups:
+      - ''
+    resources:
+      - serviceaccounts
+    verbs:
+      - get
+      - create
+      - update
+      - delete
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - roles
+      - rolebindings
+    verbs:
+      - get
+      - create
+      - update
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pgo-target-role
+  namespace: tower-awx
+rules:
+- apiGroups:
+    - ''
+  resources:
+    - configmaps
+    - endpoints
+    - pods
+    - pods/exec
+    - pods/log
+    - replicasets
+    - secrets
+    - services
+    - persistentvolumeclaims
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - patch
+    - update
+    - delete
+    - deletecollection
+- apiGroups:
+    - apps
+  resources:
+    - deployments
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - patch
+    - update
+    - delete
+    - deletecollection
+- apiGroups:
+    - batch
+  resources:
+    - jobs
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - patch
+    - update
+    - delete
+    - deletecollection
+- apiGroups:
+    - crunchydata.com
+  resources:
+    - pgclusters
+    - pgpolicies
+    - pgtasks
+    - pgreplicas
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - patch
+    - update
+    - delete
+    - deletecollection
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
