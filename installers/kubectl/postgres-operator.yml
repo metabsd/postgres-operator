@@ -51,7 +51,7 @@ data:
     exporterport: "9187"
     metrics: "false"
     namespace: ""
-    namespace_mode: "disable"
+    namespace_mode: "disabled"
     pgbadgerport: "10000"
     pgo_add_os_ca_store: "false"
     pgo_admin_password: "password123"
