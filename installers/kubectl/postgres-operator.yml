@@ -4,115 +4,6 @@ metadata:
   name: pgo-deployer-sa
   namespace: tower-awx
 ---
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: pgo-deployer-cr
-  namespace: tower-awx
-rules:
-  - apiGroups:
-      - ''
-    resources:
-      - namespaces
-    verbs:
-      - get
-      - list
-      - create
-      - patch
-      - delete
-  - apiGroups:
-      - ''
-    resources:
-      - pods
-    verbs:
-      - list
-  - apiGroups:
-      - ''
-    resources:
-      - secrets
-    verbs:
-      - list
-      - get
-      - create
-      - delete
-  - apiGroups:
-      - ''
-    resources:
-      - configmaps
-      - services
-      - persistentvolumeclaims
-    verbs:
-      - get
-      - create
-      - delete
-      - list
-  - apiGroups:
-      - ''
-    resources:
-      - serviceaccounts
-    verbs:
-      - get
-      - create
-      - delete
-      - patch
-      - list
-  - apiGroups:
-      - apps
-      - extensions
-    resources:
-      - deployments
-    verbs:
-      - get
-      - list
-      - watch
-      - create
-      - delete
-  - apiGroups:
-      - apiextensions.k8s.io
-    resources:
-      - customresourcedefinitions
-    verbs:
-      - get
-      - create
-      - delete
-  - apiGroups:
-      - rbac.authorization.k8s.io
-    resources:
-      - clusterroles
-      - clusterrolebindings
-      - roles
-      - rolebindings
-    verbs:
-      - get
-      - create
-      - delete
-      - bind
-      - escalate
-  - apiGroups:
-      - rbac.authorization.k8s.io
-    resources:
-      - roles
-    verbs:
-      - create
-      - delete
-  - apiGroups:
-      - batch
-    resources:
-      - jobs
-    verbs:
-      - delete
-      - list
-  - apiGroups:
-      - crunchydata.com
-    resources:
-      - pgclusters
-      - pgreplicas
-      - pgpolicies
-      - pgtasks
-    verbs:
-      - delete
-      - list
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -182,7 +73,7 @@ data:
     pgo_image_tag: "centos7-4.5.1"
     pgo_installation_name: "devtest"
     pgo_noauth_routes: ""
-    pgo_operator_namespace: "tower-awx"
+    pgo_operator_namespace: ""
     pgo_tls_ca_store: ""
     pgo_tls_no_verify: "false"
     pod_anti_affinity: "preferred"
@@ -201,20 +92,6 @@ data:
     storage1_size: "8G"
     storage1_type: "dynamic"
     storage1_class: "rwx-nfs-storage"
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: pgo-deployer-crb
-  namespace: tower-awx
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: pgo-deployer-cr
-subjects:
-  - kind: ServiceAccount
-    name: pgo-deployer-sa
-    namespace: tower-awx
 ---
 apiVersion: batch/v1
 kind: Job
